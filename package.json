@@ -1,0 +1,21 @@
+{
+  "name": "mooc_node-mod1_types_sentences",
+  "version": "",
+  "author": "ging",
+  "license": "AGPL-3.0",
+  "engines": {
+    "node": "^8.9.4"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node main.js",
+    "checks": "node tests/launcher.js",
+    "zip": "node tests/compress.js"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3",
+    "fs-extra": "^6.0.1",
+    "mocha": "^5.2.0",
+    "chai": "^4.1.2"
+  }
+}
