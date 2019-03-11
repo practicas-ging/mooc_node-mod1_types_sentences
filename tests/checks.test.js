@@ -61,7 +61,8 @@ const EXPECTED_OUTPUT_LENGTH = EXPECTED.split(/\r?\n\r?\n/).length;
 //TESTS
 describe("mooc_node-mod1_types_sentences", function () {
 
-    it('', async function () { this.name = `1: Checking that the assignment file exists...`;
+    it('', async function () {
+        this.name = `1: Checking that the assignment file exists...`;
         this.score = 0.5;
         this.msg_ok = `The directory '${path_assignment}' has been found`;
         this.msg_err = `The directory '${path_assignment}' has NOT been found`;
@@ -72,7 +73,8 @@ describe("mooc_node-mod1_types_sentences", function () {
         path_ok.should.be.equal(true);
     });
 
-    it('', async function () { this.name = `2: Running 'mooc_node-mod1_types_sentences.js'`;
+    it('', async function () {
+        this.name = `2: Running 'mooc_node-mod1_types_sentences.js'`;
         this.score = 0.5;
         if (error_critical) {
             this.msg_err = error_critical;
@@ -87,130 +89,138 @@ describe("mooc_node-mod1_types_sentences", function () {
                 this.msg_err = `Error running the file.\n\t\t\tReceived: ${error_exe}`;
                 error_critical = this.msg_err;
             } else {
-                output = output.split('', async function () { this.name = /\r?\n\r?\n/);
+                output = output.split(/\r?\n\r?\n/);
             }
             should.not.exist(error_exe);
         }
     });
 
-    it(`3: Checking the output length`;
-        this.score = 1.5;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "The output length is OK";
-            const output_length = output.length;
-            this.msg_err = `Unexpected output length.\n\t\t\tExpected: ${EXPECTED_OUTPUT_LENGTH} blocks\n\t\t\tRead: ${output_length} blocks`;
-            output_length.should.be.equal(EXPECTED_OUTPUT_LENGTH)
-        }
-    });
+    it('', async function () {
+        this.name = `3: Checking the output length`;
+    this.score = 1.5;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "The output length is OK";
+        const output_length = output.length;
+        this.msg_err = `Unexpected output length.\n\t\t\tExpected: ${EXPECTED_OUTPUT_LENGTH} blocks\n\t\t\tRead: ${output_length} blocks`;
+        output_length.should.be.equal(EXPECTED_OUTPUT_LENGTH)
+    }
+});
 
-    it('', async function () { this.name = `4: Checking the initial greeting`;
-        this.score = 1.5;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
+it('', async function () {
+    this.name = `4: Checking the initial greeting`;
+    this.score = 1.5;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        console.log(output[0]);
+        this.msg_ok = "The initial greeting has been found";
+        let hour = new Date().getHours();
+        if ((6 < hour) && (hour <= 12)) {
+            this.expected = /[días|morning]/i;
+        } else if (hour < 22) {
+            this.expected = /[tardes|afternoon]/i;
         } else {
-            console.log(output[0]);
-            this.msg_ok = "The initial greeting has been found";
-            let hour = new Date().getHours();
-            if ((6 < hour) && (hour <= 12)) {
-                this.expected = /[días|morning]/i;
-            } else if (hour < 22) {
-                this.expected = /[tardes|afternoon]/i;
-            } else {
-                this.expected = /[noches|night]/i;
+            this.expected = /[noches|night]/i;
+        }
+        this.msg_err = `The initial greeting has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[0].trim()}`;
+        Utils.search(this.expected, output[0]).should.be.equal(true);
+    }
+});
+
+it('', async function () {
+    this.name = `5: Checking that the PI value is printed`;
+    this.score = 1.25;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "6 decimals of the PI value have been found";
+        this.expected = "3.141593";
+        this.msg_err = `6 decimals of the PI value have NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[1].trim()}`;
+        Utils.search(this.expected, output[1]).should.be.equal(true);
+    }
+});
+
+it('', async function () {
+    this.name = `6: Checking the equivalence table`;
+    this.score = 1.25;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "All the values have been found";
+        this.error = false;
+        this.lines = output[2].split(/\r?\n/);
+        for (let d in this.lines) {
+            this.myreg = `.+?${d}.+?${(d >>> 0).toString(16)}.+?${(d >>> 0).toString(8)}.+?${(d >>> 0).toString(2)}.+?`;
+            this.expected = new RegExp(this.myreg);
+            let ok = Utils.search(this.expected, this.lines[d]);
+            if (!ok) {
+                this.error = true;
+                this.msg_err = `The element ${d} has not been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${this.lines[d].trim()}`;
             }
-            this.msg_err = `The initial greeting has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[0].trim()}`;
-            Utils.search(this.expected, output[0]).should.be.equal(true);
         }
-    });
+        this.error.should.be.equal(false);
+    }
+});
 
-    it('', async function () { this.name = `5: Checking that the PI value is printed`;
-        this.score = 1.25;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "6 decimals of the PI value have been found";
-            this.expected = "3.141593";
-            this.msg_err = `6 decimals of the PI value have NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[1].trim()}`;
-            Utils.search(this.expected, output[1]).should.be.equal(true);
-        }
-    });
-
-    it('', async function () { this.name = `6: Checking the equivalence table`;
-        this.score = 1.25;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "All the values have been found";
-            this.error = false;
-            this.lines = output[2].split(/\r?\n/);
-            for (let d in this.lines) {
+it('', async function () {
+    this.name = `7: Checking the equivalence table for odd numbers between 10 and 20`;
+    this.score = 1.25;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "All the values have been found";
+        this.error = false;
+        this.lines = output[3].split(/\r?\n/);
+        let i = 0;
+        for (let d = 0; d <= 22; ++d) {
+            if (((d % 2) === 1) && ((d < 10) || (d > 20))) {
                 this.myreg = `.+?${d}.+?${(d >>> 0).toString(16)}.+?${(d >>> 0).toString(8)}.+?${(d >>> 0).toString(2)}.+?`;
                 this.expected = new RegExp(this.myreg);
-                let ok = Utils.search(this.expected, this.lines[d]);
+                let ok = Utils.search(this.expected, this.lines[i]);
                 if (!ok) {
                     this.error = true;
-                    this.msg_err = `The element ${d} has not been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${this.lines[d].trim()}`;
+                    this.msg_err = `The element ${i} has not been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${this.lines[i]}`;
                 }
-            }
-            this.error.should.be.equal(false);
-        }
-    });
-
-    it('', async function () { this.name = `7: Checking the equivalence table for odd numbers between 10 and 20`;
-        this.score = 1.25;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "All the values have been found";
-            this.error = false;
-            this.lines = output[3].split(/\r?\n/);
-            let i = 0;
-            for (let d = 0; d <= 22; ++d) {
-                if (((d % 2) === 1) && ((d < 10) || (d > 20))) {
-                    this.myreg = `.+?${d}.+?${(d >>> 0).toString(16)}.+?${(d >>> 0).toString(8)}.+?${(d >>> 0).toString(2)}.+?`;
-                    this.expected = new RegExp(this.myreg);
-                    let ok = Utils.search(this.expected, this.lines[i]);
-                    if (!ok) {
-                        this.error = true;
-                        this.msg_err = `The element ${i} has not been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${this.lines[i]}`;
-                    }
-                    i++;
-                    this.error.should.be.equal(false);
-                }
+                i++;
+                this.error.should.be.equal(false);
             }
         }
-    });
-
-    it('', async function () { this.name = `8: Checking that unicode characters are printed correctly`;
-        this.score = 1.25;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "'hello' in chinese has been found";
-            this.expected = "\u55e8\uff0c\u4f60\u597d\u5417";
-            this.msg_err = `'hello' in chinese has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[4].trim()}`;
-            Utils.search(this.expected, output[4]).should.be.equal(true);
-        }
-    });
-
-    it('', async function () { this.name = `9: Checking that the farewell sentence is printed`;
-        this.score = 1.5;
-        if (error_critical) {
-            this.msg_err = error_critical;
-            should.not.exist(error_critical);
-        } else {
-            this.msg_ok = "The farewell sentence has been found";
-            this.expected = /The program has finished/i;
-            this.msg_err = `The farewell sentence has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[5].trim()}`;
-            Utils.search(this.expected, output[5]).should.be.equal(true);
-        }
-    });
+    }
 });
+
+it('', async function () {
+    this.name = `8: Checking that unicode characters are printed correctly`;
+    this.score = 1.25;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "'hello' in chinese has been found";
+        this.expected = "\u55e8\uff0c\u4f60\u597d\u5417";
+        this.msg_err = `'hello' in chinese has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[4].trim()}`;
+        Utils.search(this.expected, output[4]).should.be.equal(true);
+    }
+});
+
+it('', async function () {
+    this.name = `9: Checking that the farewell sentence is printed`;
+    this.score = 1.5;
+    if (error_critical) {
+        this.msg_err = error_critical;
+        should.not.exist(error_critical);
+    } else {
+        this.msg_ok = "The farewell sentence has been found";
+        this.expected = /The program has finished/i;
+        this.msg_err = `The farewell sentence has NOT been found.\n\t\t\tExpected: ${this.expected}\n\t\t\tReceived: ${output[5].trim()}`;
+        Utils.search(this.expected, output[5]).should.be.equal(true);
+    }
+});
+})
+;
