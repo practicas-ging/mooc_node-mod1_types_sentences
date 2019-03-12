@@ -156,7 +156,7 @@ it('', async function () {
         this.error = false;
         this.lines = output[2].split(/\r?\n/);
         for (let d in this.lines) {
-            this.myreg = `.+?${d}.+?${(d >>> 0).toString(16)}.+?${(d >>> 0).toString(8)}.+?${(d >>> 0).toString(2)}.+?`;
+            this.myreg = `.*?${d}.*?${(d >>> 0).toString(16)}.*?${(d >>> 0).toString(8)}.*?${(d >>> 0).toString(2)}.*?`;
             this.expected = new RegExp(this.myreg);
             let ok = Utils.search(this.expected, this.lines[d]);
             if (!ok) {
